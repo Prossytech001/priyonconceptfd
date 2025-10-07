@@ -255,8 +255,12 @@
 //   );
 // }
 "use client";
-import { useState, useEffect } from "react";
+export const dynamic = "force-dynamic";
+
 import { useSearchParams } from "next/navigation";
+
+import { useState, useEffect } from "react";
+
 import FilterDrawer from "@/components/FilterDrawer";
 import SortDropdown from "@/components/SortDropdown";
 import SelectedFilters from "@/components/SelectedFilters";
