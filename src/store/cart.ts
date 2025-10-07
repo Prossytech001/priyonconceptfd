@@ -184,7 +184,9 @@ export interface CartItem {
   image: string;
   qty: number;
   color?: string;
+  colors?: string[];
   size?: string;
+   sizes?: string[];
   currency?: string;
 }
 

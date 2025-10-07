@@ -262,16 +262,21 @@ import SortDropdown from "@/components/SortDropdown";
 import SelectedFilters from "@/components/SelectedFilters";
 import ProductCard from "@/components/ProductCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import type { Filters } from "@/types/filters";
+import type { Product } from "@/types/product";
+
+
 
 // ✅ Unified Filter type with FilterDrawer expectations
 type FiltersType = {
-  availability?: "in" | "out" | null;
+  availability?: "in" | "out" | string | null | undefined;
   minPrice?: number | "" | undefined;
   maxPrice?: number | "" | undefined;
   category?: string | null;
   subCategory?: string | null;
   size?: string | null;
 };
+
 
 type ProductType = {
   _id: string;
@@ -284,17 +289,26 @@ export default function ShopPage() {
   const queryCategory = searchParams.get("category") || "";
   const querySub = searchParams.get("sub") || "";
 
-  const [filters, setFilters] = useState<FiltersType>({
-    availability: null,
-    minPrice: "",
-    maxPrice: "",
-    category: queryCategory || null,
-    subCategory: querySub || null,
-    size: null,
-  });
+  // const [filters, setFilters] = useState<FiltersType>({
+  //   availability: null,
+  //   minPrice: "",
+  //   maxPrice: "",
+  //   category: queryCategory || null,
+  //   subCategory: querySub || null,
+  //   size: null,
+  // });
+const [filters, setFilters] = useState<Filters>({
+  availability: null,
+  minPrice: undefined,
+  maxPrice: undefined,
+  category: queryCategory || null,
+  subCategory: querySub || null,
+  size: null,
+});
 
   const [sort, setSort] = useState("new-old");
-  const [products, setProducts] = useState<ProductType[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+
 
   // ✅ Sync filters with URL
   useEffect(() => {
@@ -324,7 +338,7 @@ export default function ShopPage() {
     console.log("Fetching from:", url);
     fetch(url)
       .then((r) => r.json())
-      .then((data) => setProducts((data.products as ProductType[]) || []))
+      .then((data) => setProducts((data.products as Product[]) || []))
       .catch((err) => console.error("Fetch error:", err));
   }, [filters, sort]);
 
