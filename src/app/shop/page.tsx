@@ -272,20 +272,9 @@ import type { Product } from "@/types/product";
 
 
 // ✅ Unified Filter type with FilterDrawer expectations
-type FiltersType = {
-  availability?: "in" | "out" | string | null | undefined;
-  minPrice?: number | "" | undefined;
-  maxPrice?: number | "" | undefined;
-  category?: string | null;
-  subCategory?: string | null;
-  size?: string | null;
-};
 
 
-type ProductType = {
-  _id: string;
-  [key: string]: unknown;
-};
+
 
 export default function ShopPage() {
   const searchParams = useSearchParams();
