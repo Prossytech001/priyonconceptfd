@@ -210,10 +210,11 @@ export default function ShopPage() {
   return (
     <div className="container mx-auto py-10 px-6">
       <Breadcrumbs
-        category={filters.category}
-        subCategory={filters.subCategory}
-        currentPage="Shop"
-      />
+  category={filters.category || undefined}
+  subCategory={filters.subCategory || undefined}
+  currentPage="Shop"
+/>
+
 
       <h1
         className="text-center text-2xl md:text-3xl font-semibold tracking-wider mb-8"
