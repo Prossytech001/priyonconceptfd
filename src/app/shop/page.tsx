@@ -256,11 +256,11 @@
 // }
 "use client";
 export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+export const revalidate = 0;
 
 import { useSearchParams } from "next/navigation";
-
 import { useState, useEffect } from "react";
-
 import FilterDrawer from "@/components/FilterDrawer";
 import SortDropdown from "@/components/SortDropdown";
 import SelectedFilters from "@/components/SelectedFilters";
