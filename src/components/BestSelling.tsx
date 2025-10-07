@@ -1,9 +1,21 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 
+// ✅ Define a type for product data
+export interface Product {
+  _id: string;
+  name: string;
+  price: number;
+  image: string;
+  isNew?: boolean;
+  isBestSeller?: boolean;
+  [key: string]: unknown; // keeps flexibility for any extra API fields
+}
+
 export default function BestSelling() {
-  const [products, setProducts] = useState<any[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -16,7 +28,7 @@ export default function BestSelling() {
       );
       const data = await res.json();
 
-      setProducts(data.products || []);
+      setProducts((data.products as Product[]) || []);
       setTotalPages(data.totalPages || 1);
       setPage(data.currentPage || 1);
     } catch (err) {
@@ -36,14 +48,19 @@ export default function BestSelling() {
         {/* Section Heading */}
         <h2
           className="text-center text-3xl md:text-4xl font-bold mb-10 tracking-wide"
-          style={{ fontFamily: "var(--font-handwriting)", color: "var( --color-burgundy)" }}
+          style={{
+            fontFamily: "var(--font-handwriting)",
+            color: "var(--color-burgundy)",
+          }}
         >
           BEST SELLING
         </h2>
 
         {/* Products Grid */}
         {loading ? (
-          <p className="text-center text-gray-500 py-10">Loading best selling items...</p>
+          <p className="text-center text-gray-500 py-10">
+            Loading best selling items...
+          </p>
         ) : products.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
             {products.map((product) => (

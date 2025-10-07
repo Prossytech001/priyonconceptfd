@@ -98,22 +98,99 @@
 //   openDrawer: (product) => set({ drawerProduct: product, isDrawerOpen: true }),
 //   closeDrawer: () => set({ drawerProduct: null, isDrawerOpen: false }),
 // }));
+// "use client";
+// import { create } from "zustand";
+// import { persist } from "zustand/middleware";
+
+// interface CartItem {
+//   _id: string;
+//   name: string;
+//   price: number;
+//   image: string;
+//   qty: number;
+//   color?: string;
+// }
+
+// interface CartState {
+//   items: CartItem[];
+//   drawerProduct: any | null;
+//   isDrawerOpen: boolean;
+
+//   addItem: (item: CartItem) => void;
+//   removeItem: (id: string) => void;
+//   updateQty: (id: string, qty: number) => void;
+//   clearCart: () => void;
+
+//   openDrawer: (product: any) => void;
+//   closeDrawer: () => void;
+// }
+
+// export const useCart = create<CartState>()(
+//   persist(
+//     (set, get) => ({
+//       items: [],
+//       drawerProduct: null,
+//       isDrawerOpen: false,
+
+//       addItem: (item) => {
+//         const items = get().items;
+//         const existing = items.find((i) => i._id === item._id && i.color === item.color);
+
+//         let updated;
+//         if (existing) {
+//           updated = items.map((i) =>
+//             i._id === item._id && i.color === item.color
+//               ? { ...i, qty: i.qty + item.qty }
+//               : i
+//           );
+//         } else {
+//           updated = [...items, item];
+//         }
+
+//         set({ items: updated });
+//       },
+
+//       removeItem: (id) =>
+//         set({
+//           items: get().items.filter((i) => i._id !== id),
+//         }),
+
+//       updateQty: (id, qty) =>
+//         set({
+//           items: get().items.map((i) =>
+//             i._id === id ? { ...i, qty: Math.max(1, qty) } : i
+//           ),
+//         }),
+
+//       clearCart: () => set({ items: [] }),
+
+//       openDrawer: (product) => set({ drawerProduct: product, isDrawerOpen: true }),
+//       closeDrawer: () => set({ isDrawerOpen: false }),
+//     }),
+//     {
+//       name: "priyon-cart", // localStorage key
+//       partialize: (state) => ({ items: state.items }), // only persist cart items
+//     }
+//   )
+// );
 "use client";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface CartItem {
+export interface CartItem {
   _id: string;
   name: string;
   price: number;
   image: string;
   qty: number;
   color?: string;
+  size?: string;
+  currency?: string;
 }
 
 interface CartState {
   items: CartItem[];
-  drawerProduct: any | null;
+  drawerProduct: CartItem | null;
   isDrawerOpen: boolean;
 
   addItem: (item: CartItem) => void;
@@ -121,7 +198,7 @@ interface CartState {
   updateQty: (id: string, qty: number) => void;
   clearCart: () => void;
 
-  openDrawer: (product: any) => void;
+  openDrawer: (product: CartItem) => void;
   closeDrawer: () => void;
 }
 
@@ -134,12 +211,14 @@ export const useCart = create<CartState>()(
 
       addItem: (item) => {
         const items = get().items;
-        const existing = items.find((i) => i._id === item._id && i.color === item.color);
+        const existing = items.find(
+          (i) => i._id === item._id && i.color === item.color && i.size === item.size
+        );
 
         let updated;
         if (existing) {
           updated = items.map((i) =>
-            i._id === item._id && i.color === item.color
+            i._id === item._id && i.color === item.color && i.size === item.size
               ? { ...i, qty: i.qty + item.qty }
               : i
           );
