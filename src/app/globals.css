@@ -1,26 +1,94 @@
 @import "tailwindcss";
+@import "swiper/css";
+@import "swiper/css/navigation";
+@import "swiper/css/pagination";
+
+
+
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-indigo: #2C2C54;   /* Deep Indigo */
+  --color-burgundy: #800020; /* Burgundy */
+  --color-gold: #D4AF37;     /* Gold */
+  --color-neutral: #FAFAFA;  /* Off-white */
+  --color-gray: #E5E5E5;     /* Soft Gray */
+  --color-text: #111111;  
+  
+  /* font */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Poppins', sans-serif;
+  --font-accent: 'Raleway', sans-serif;
+  --font-alt: 'Roboto', sans-serif;
+  --font-handwriting: 'Amatic SC', cursive;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-neutral);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
 }
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-handwriting);
+  
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes slideDown {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(100%); opacity: 0; }
+}
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out forwards;
+}
+.animate-slideDown {
+  animation: slideDown 0.3s ease-in forwards;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.3s ease-out forwards;
+}
+
+.animate-slideDown {
+  animation: slideDown 0.25s ease-in forwards;
+}
+
+
+
+[data-sonner-toast] {
+  background-color: var(--color-neutral) !important;
+  color: var(--color-text) !important;
+  border: 1px solid var(--color-gold) !important;
+}
+[data-sonner-toast-success] {
+  background-color: var(--color-gold) !important;
+  color: white !important;
+}
+
+
