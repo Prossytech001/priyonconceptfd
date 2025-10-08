@@ -126,7 +126,7 @@ export default function BestSelling() {
     try {
       setLoading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/products?isBestSeller=true&page=${pageNum}&limit=8`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products?isBestSeller=true&page=${pageNum}&limit=8`
       );
 
       if (!res.ok) throw new Error("Failed to fetch best sellers");

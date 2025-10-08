@@ -177,3 +177,37 @@ frontend/
 | ESLint “any” errors         | Explicit types                                |
 | `<img>` performance warning | Used `next/image`                             |
 | Hydration mismatch          | Avoided server data fetching for client pages |
+
+
+
+{
+  "_id": "6711b7d4f9a87...",
+  "user": "670fff12b51...",
+  "items": [
+    {
+      "productId": "66ffa890b52...",
+      "name": "Men’s Ankara Suit",
+      "price": 35000,
+      "quantity": 2,
+      "colors": ["black", "gold"],
+      "sizes": ["L"],
+      "images": ["https://cdn.priyon.com/men-ankara.jpg"]
+    }
+  ],
+  "totalAmount": 70000,
+  "currency": "NGN",
+  "shippingAddress": {
+    "fullName": "John Doe",
+    "address": "123 Lekki Phase 1",
+    "city": "Lagos",
+    "state": "Lagos",
+    "country": "Nigeria",
+    "postalCode": "105102",
+    "phone": "+2348012345678",
+    "phone2": "+2348098765432"
+  },
+  "paymentMethod": "paystack",
+  "paymentStatus": "pending",
+  "orderStatus": "processing",
+  "createdAt": "2025-10-08T09:25:11.234Z"
+}

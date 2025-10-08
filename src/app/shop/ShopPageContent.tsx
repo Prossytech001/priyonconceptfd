@@ -63,7 +63,7 @@ const [loading, setLoading] = useState(false)
     try {
       setLoading(true); // ✅ show skeleton before fetching
 
-      let url = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+      let url = `${process.env.NEXT_PUBLIC_API_URL}/api/products`;
       const params = new URLSearchParams();
 
       if (filters.category) params.append("category", filters.category);

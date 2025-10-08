@@ -167,7 +167,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     const timer = setTimeout(() => {
       setLoading(true);
       fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/products?search=${encodeURIComponent(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products?search=${encodeURIComponent(
           query
         )}`
       )

@@ -397,7 +397,7 @@ export default function NewArrivals() {
     try {
       setLoading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/products?isNew=true&page=${pageNum}&limit=8`
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products?isNew=true&page=${pageNum}&limit=8`
       );
 
       if (!res.ok) throw new Error("Failed to fetch new arrivals");
