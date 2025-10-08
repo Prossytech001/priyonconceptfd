@@ -168,3 +168,12 @@ frontend/
  │   └─ lib/                     # Utilities, API helpers
  │       └─ api.ts               # Fetch wrapper for backend API
 
+| Problem                     | Fix                                           |
+| --------------------------- | --------------------------------------------- |
+| Prerender build crash       | `export const dynamic = "force-dynamic";`     |
+| Suspense warning            | `<Suspense><ShopPageContent /></Suspense>`    |
+| Type errors                 | Unified `Filters` type                        |
+| Missing `image` in cart     | Added fallback image                          |
+| ESLint “any” errors         | Explicit types                                |
+| `<img>` performance warning | Used `next/image`                             |
+| Hydration mismatch          | Avoided server data fetching for client pages |

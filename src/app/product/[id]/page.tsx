@@ -1514,6 +1514,7 @@ import ProductCard from "@/components/ProductCard";
 import { toast } from "sonner";
 import { useCart } from "@/store/cart";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import SkeletonProduct from "@/components/SkeletonProduct";
 
 interface Product {
   _id: string;
@@ -1561,7 +1562,7 @@ export default function ProductPage() {
       .catch(console.error);
   }, [id]);
 
-  if (!product) return <p className="text-center py-20">Loading...</p>;
+  if (!product) return <SkeletonProduct />;
 
   // ✅ Add to cart safely
   const handleAdd = () => {

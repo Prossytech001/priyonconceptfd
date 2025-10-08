@@ -8,10 +8,12 @@ import ProductCard from "@/components/ProductCard";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import type { Filters } from "@/types/filters";
 import type { Product } from "@/types/product";
+import SkeletonCard from "@/components/SkeletonCard";
+
 
 export default function ShopPageContent() {
   const searchParams = useSearchParams();
-
+const [loading, setLoading] = useState(false)
   const queryCategory = searchParams.get("category") || "";
   const querySub = searchParams.get("sub") || "";
 
@@ -35,27 +37,63 @@ export default function ShopPageContent() {
     }));
   }, [queryCategory, querySub]);
 
+  // useEffect(() => {
+  //   let url = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+  //   const params = new URLSearchParams();
+
+  //   if (filters.category) params.append("category", filters.category);
+  //   if (filters.subCategory) params.append("sub", filters.subCategory);
+  //   if (filters.minPrice) params.append("minPrice", String(filters.minPrice));
+  //   if (filters.maxPrice) params.append("maxPrice", String(filters.maxPrice));
+  //   if (filters.availability === "in") params.append("inStock", "true");
+  //   if (filters.availability === "out") params.append("inStock", "false");
+  //   if (filters.size) params.append("size", filters.size);
+  //   if (sort) params.append("sort", sort);
+
+  //   if (params.toString()) url += `?${params.toString()}`;
+
+  //   console.log("Fetching from:", url);
+  //   fetch(url)
+  //     .then((r) => r.json())
+  //     .then((data) => setProducts((data.products as Product[]) || []))
+  //     .catch((err) => console.error("Fetch error:", err));
+  // }, [filters, sort]);
   useEffect(() => {
-    let url = `${process.env.NEXT_PUBLIC_API_URL}/products`;
-    const params = new URLSearchParams();
+  const fetchProducts = async () => {
+    try {
+      setLoading(true); // ✅ show skeleton before fetching
 
-    if (filters.category) params.append("category", filters.category);
-    if (filters.subCategory) params.append("sub", filters.subCategory);
-    if (filters.minPrice) params.append("minPrice", String(filters.minPrice));
-    if (filters.maxPrice) params.append("maxPrice", String(filters.maxPrice));
-    if (filters.availability === "in") params.append("inStock", "true");
-    if (filters.availability === "out") params.append("inStock", "false");
-    if (filters.size) params.append("size", filters.size);
-    if (sort) params.append("sort", sort);
+      let url = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+      const params = new URLSearchParams();
 
-    if (params.toString()) url += `?${params.toString()}`;
+      if (filters.category) params.append("category", filters.category);
+      if (filters.subCategory) params.append("sub", filters.subCategory);
+      if (filters.minPrice) params.append("minPrice", String(filters.minPrice));
+      if (filters.maxPrice) params.append("maxPrice", String(filters.maxPrice));
+      if (filters.availability === "in") params.append("inStock", "true");
+      if (filters.availability === "out") params.append("inStock", "false");
+      if (filters.size) params.append("size", filters.size);
+      if (sort) params.append("sort", sort);
 
-    console.log("Fetching from:", url);
-    fetch(url)
-      .then((r) => r.json())
-      .then((data) => setProducts((data.products as Product[]) || []))
-      .catch((err) => console.error("Fetch error:", err));
-  }, [filters, sort]);
+      if (params.toString()) url += `?${params.toString()}`;
+
+      console.log("Fetching from:", url);
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Failed to fetch products");
+
+      const data = await res.json();
+      setProducts((data.products as Product[]) || []);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    } finally {
+      setLoading(false); // ✅ hide skeleton after done
+    }
+  };
+
+  fetchProducts();
+}, [filters, sort]);
+
 
   const getHeading = () => {
     if (filters.category === "men") return "MEN'S APPAREL";
@@ -105,7 +143,7 @@ export default function ShopPageContent() {
         setFilters={setFilters}
       />
 
-      {products.length > 0 ? (
+      {/* {products.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {products.map((p) => (
             <ProductCard key={p._id} product={p} />
@@ -113,7 +151,38 @@ export default function ShopPageContent() {
         </div>
       ) : (
         <p className="text-center text-gray-500 mt-20">No products found</p>
-      )}
+      )} */}
+      {/* {products.length > 0 ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {products.map((p) => (
+      <ProductCard key={p._id} product={p} />
+    ))}
+  </div>
+) : loading ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <SkeletonCard key={i} />
+    ))}
+  </div>
+) : (
+  <p className="text-center text-gray-500 mt-20">No products found</p>
+)} */}
+{loading ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <SkeletonCard key={i} />
+    ))}
+  </div>
+) : products.length > 0 ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {products.map((p) => (
+      <ProductCard key={p._id} product={p} />
+    ))}
+  </div>
+) : (
+  <p className="text-center text-gray-500 mt-20">No products found</p>
+)}
+
     </div>
   );
 }

@@ -379,6 +379,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import type { Product } from "@/types/product"; // ✅ import your shared Product type
+import SkeletonCard from "./SkeletonCard";
 
 interface ProductResponse {
   products: Product[];
@@ -433,7 +434,7 @@ export default function NewArrivals() {
         </h2>
 
         {/* Product Grid */}
-        {loading ? (
+        {/* {loading ? (
           <p className="text-center text-gray-500 py-10">
             Loading new arrivals...
           </p>
@@ -447,7 +448,24 @@ export default function NewArrivals() {
           <p className="text-center text-gray-500 py-10">
             No new arrivals available right now.
           </p>
-        )}
+        )} */}
+{loading ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <SkeletonCard key={i} />
+    ))}
+  </div>
+) : products.length > 0 ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+    {products.map((product) => (
+      <ProductCard key={product._id} product={product} />
+    ))}
+  </div>
+) : (
+  <p className="text-center text-gray-500 py-10">
+    No products available right now.
+  </p>
+)}
 
         {/* Pagination Controls */}
         {totalPages > 1 && (

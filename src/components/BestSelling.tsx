@@ -114,6 +114,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import type { Product } from "@/types/product"; // ✅ use the shared type
+import SkeletonCard from "./SkeletonCard";
 
 export default function BestSelling() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -162,7 +163,7 @@ export default function BestSelling() {
         </h2>
 
         {/* Products Grid */}
-        {loading ? (
+        {/* {loading ? (
           <p className="text-center text-gray-500 py-10">
             Loading best selling items...
           </p>
@@ -176,7 +177,25 @@ export default function BestSelling() {
           <p className="text-center text-gray-500 py-10">
             No best selling products available right now.
           </p>
-        )}
+        )} */}
+        {loading ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {Array.from({ length: 8 }).map((_, i) => (
+      <SkeletonCard key={i} />
+    ))}
+  </div>
+) : products.length > 0 ? (
+  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+    {products.map((product) => (
+      <ProductCard key={product._id} product={product} />
+    ))}
+  </div>
+) : (
+  <p className="text-center text-gray-500 py-10">
+    No products available right now.
+  </p>
+)}
+
 
         {/* Pagination Controls */}
         {totalPages > 1 && (
