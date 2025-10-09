@@ -50,9 +50,9 @@ export async function apiRequest<T = unknown>(
   });
 
   if (!res.ok) {
-    const text = await res.text();
-    console.error(`❌ API Error: [${res.status}] ${text}`);
-    throw new Error("Request failed");
+    const errorData = await res.json().catch(() => ({}));
+    console.error(`❌ API Error: [${res.status}]`, errorData);
+    throw new Error(errorData.error || "Request failed");
   }
 
   return (await res.json()) as T;
